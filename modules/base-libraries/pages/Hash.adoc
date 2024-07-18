@@ -1,0 +1,92 @@
+[[module.Hash]]
+= Hash
+
+Hash values
+
+[[type.Hash]]
+== Hash
+
+[source.no-repl,motoko,subs=+macros]
+----
+type Hash = Nat32
+----
+
+Hash values represent a string of _hash bits_, packed into a `Nat32`.
+
+[[length]]
+== length
+
+[source.no-repl,motoko,subs=+macros]
+----
+let length : Nat
+----
+
+The hash length, always 31.
+
+[[bit]]
+== bit
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bit(h : xref:#type.Hash[Hash], pos : Nat) : Bool
+----
+
+Project a given bit from the bit vector.
+
+[[equal]]
+== equal
+
+[source.no-repl,motoko,subs=+macros]
+----
+func equal(ha : xref:#type.Hash[Hash], hb : xref:#type.Hash[Hash]) : Bool
+----
+
+Test if two hashes are equal
+
+[[hash]]
+== hash
+
+[source.no-repl,motoko,subs=+macros]
+----
+func hash(n : Nat) : xref:#type.Hash[Hash]
+----
+
+Computes a hash from the least significant 32-bits of `n`, ignoring other bits.
+@deprecated For large `Nat` values consider using a bespoke hash function that considers all of the argument's bits.
+
+[[debugPrintBits]]
+== debugPrintBits
+
+[source.no-repl,motoko,subs=+macros]
+----
+func debugPrintBits(bits : xref:#type.Hash[Hash])
+----
+
+@deprecated This function will be removed in future.
+
+[[debugPrintBitsRev]]
+== debugPrintBitsRev
+
+[source.no-repl,motoko,subs=+macros]
+----
+func debugPrintBitsRev(bits : xref:#type.Hash[Hash])
+----
+
+@deprecated This function will be removed in future.
+
+[[hashNat8]]
+== hashNat8
+
+[source.no-repl,motoko,subs=+macros]
+----
+func hashNat8(key : pass:[[]xref:#type.Hash[Hash]pass:[]]) : xref:#type.Hash[Hash]
+----
+
+Jenkin's one at a time:
+
+https://en.wikipedia.org/wiki/Jenkins_hash_function#one_at_a_time
+
+The input type should actually be `[Nat8]`.
+Note: Be sure to explode each `Nat8` of a `Nat32` into its own `Nat32`, and to shift into lower 8 bits.
+@deprecated This function may be removed or changed in future.
+

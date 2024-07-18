@@ -1,0 +1,440 @@
+[[module.Int]]
+= Int
+
+Signed integer numbers with infinite precision (also called big integers).
+
+Most operations on integer numbers (e.g. addition) are available as built-in operators (e.g. `-1 + 1`).
+This module provides equivalent functions and `Text` conversion.
+
+Import from the base library to use this module.
+```motoko name=import
+import Int "mo:base/Int";
+```
+
+[[type.Int]]
+== Int
+
+[source.no-repl,motoko,subs=+macros]
+----
+type Int = Prim.Types.Int
+----
+
+Infinite precision signed integers.
+
+[[abs]]
+== abs
+
+[source.no-repl,motoko,subs=+macros]
+----
+func abs(x : xref:#type.Int[Int]) : Nat
+----
+
+Returns the absolute value of `x`.
+
+Example:
+```motoko include=import
+Int.abs(-12) // => 12
+```
+
+[[toText]]
+== toText
+
+[source.no-repl,motoko,subs=+macros]
+----
+func toText(x : xref:#type.Int[Int]) : Text
+----
+
+Converts an integer number to its textual representation. Textual
+representation _do not_ contain underscores to represent commas.
+
+Example:
+```motoko include=import
+Int.toText(-1234) // => "-1234"
+```
+
+[[min]]
+== min
+
+[source.no-repl,motoko,subs=+macros]
+----
+func min(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the minimum of `x` and `y`.
+
+Example:
+```motoko include=import
+Int.min(2, -3) // => -3
+```
+
+[[max]]
+== max
+
+[source.no-repl,motoko,subs=+macros]
+----
+func max(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the maximum of `x` and `y`.
+
+Example:
+```motoko include=import
+Int.max(2, -3) // => 2
+```
+
+[[hash]]
+== hash
+
+[source.no-repl,motoko,subs=+macros]
+----
+func hash(i : xref:#type.Int[Int]) : xref:Hash.adoc#type.Hash[Hash.Hash]
+----
+
+Computes a hash from the least significant 32-bits of `i`, ignoring other bits.
+@deprecated For large `Int` values consider using a bespoke hash function that considers all of the argument's bits.
+
+[[hashAcc]]
+== hashAcc
+
+[source.no-repl,motoko,subs=+macros]
+----
+func hashAcc(h1 : xref:Hash.adoc#type.Hash[Hash.Hash], i : xref:#type.Int[Int]) : xref:Hash.adoc#type.Hash[Hash.Hash]
+----
+
+Computes an accumulated hash from `h1` and the least significant 32-bits of `i`, ignoring other bits in `i`.
+@deprecated For large `Int` values consider using a bespoke hash function that considers all of the argument's bits.
+
+[[equal]]
+== equal
+
+[source.no-repl,motoko,subs=+macros]
+----
+func equal(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+Equality function for Int types.
+This is equivalent to `x == y`.
+
+Example:
+```motoko include=import
+Int.equal(-1, -1); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `==` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `==`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Buffer "mo:base/Buffer";
+
+let buffer1 = Buffer.Buffer<Int>(1);
+buffer1.add(-3);
+let buffer2 = Buffer.Buffer<Int>(1);
+buffer2.add(-3);
+Buffer.equal(buffer1, buffer2, Int.equal) // => true
+```
+
+[[notEqual]]
+== notEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func notEqual(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+Inequality function for Int types.
+This is equivalent to `x != y`.
+
+Example:
+```motoko include=import
+Int.notEqual(-1, -2); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `!=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `!=`
+as a function value at the moment.
+
+[[less]]
+== less
+
+[source.no-repl,motoko,subs=+macros]
+----
+func less(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+"Less than" function for Int types.
+This is equivalent to `x < y`.
+
+Example:
+```motoko include=import
+Int.less(-2, 1); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<`
+as a function value at the moment.
+
+[[lessOrEqual]]
+== lessOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func lessOrEqual(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+"Less than or equal" function for Int types.
+This is equivalent to `x <= y`.
+
+Example:
+```motoko include=import
+Int.lessOrEqual(-2, 1); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<=`
+as a function value at the moment.
+
+[[greater]]
+== greater
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greater(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+"Greater than" function for Int types.
+This is equivalent to `x > y`.
+
+Example:
+```motoko include=import
+Int.greater(1, -2); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `>` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `>`
+as a function value at the moment.
+
+[[greaterOrEqual]]
+== greaterOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greaterOrEqual(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : Bool
+----
+
+"Greater than or equal" function for Int types.
+This is equivalent to `x >= y`.
+
+Example:
+```motoko include=import
+Int.greaterOrEqual(1, -2); // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `>=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `>=`
+as a function value at the moment.
+
+[[compare]]
+== compare
+
+[source.no-repl,motoko,subs=+macros]
+----
+func compare(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : {#less; #equal; #greater}
+----
+
+General-purpose comparison function for `Int`. Returns the `Order` (
+either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
+
+Example:
+```motoko include=import
+Int.compare(-3, 2) // => #less
+```
+
+This function can be used as value for a high order function, such as a sort function.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.sort([1, -2, -3], Int.compare) // => [-3, -2, 1]
+```
+
+[[neg]]
+== neg
+
+[source.no-repl,motoko,subs=+macros]
+----
+func neg(x : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the negation of `x`, `-x` .
+
+Example:
+```motoko include=import
+Int.neg(123) // => -123
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `-` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `-`
+as a function value at the moment.
+
+[[add]]
+== add
+
+[source.no-repl,motoko,subs=+macros]
+----
+func add(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the sum of `x` and `y`, `x + y`.
+
+No overflow since `Int` has infinite precision.
+
+Example:
+```motoko include=import
+Int.add(1, -2); // => -1
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `+` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `+`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft([1, -2, -3], 0, Int.add) // => -4
+```
+
+[[sub]]
+== sub
+
+[source.no-repl,motoko,subs=+macros]
+----
+func sub(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the difference of `x` and `y`, `x - y`.
+
+No overflow since `Int` has infinite precision.
+
+Example:
+```motoko include=import
+Int.sub(1, 2); // => -1
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `-` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `-`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft([1, -2, -3], 0, Int.sub) // => 4
+```
+
+[[mul]]
+== mul
+
+[source.no-repl,motoko,subs=+macros]
+----
+func mul(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the product of `x` and `y`, `x * y`.
+
+No overflow since `Int` has infinite precision.
+
+Example:
+```motoko include=import
+Int.mul(-2, 3); // => -6
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `*` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `*`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft([1, -2, -3], 1, Int.mul) // => 6
+```
+
+[[div]]
+== div
+
+[source.no-repl,motoko,subs=+macros]
+----
+func div(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the signed integer division of `x` by `y`,  `x / y`.
+Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
+
+Traps when `y` is zero.
+
+Example:
+```motoko include=import
+Int.div(6, -2); // => -3
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `/` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `/`
+as a function value at the moment.
+
+[[rem]]
+== rem
+
+[source.no-repl,motoko,subs=+macros]
+----
+func rem(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
+which is defined as `x - x / y * y`.
+
+Traps when `y` is zero.
+
+Example:
+```motoko include=import
+Int.rem(6, -4); // => 2
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `%`
+as a function value at the moment.
+
+[[pow]]
+== pow
+
+[source.no-repl,motoko,subs=+macros]
+----
+func pow(x : xref:#type.Int[Int], y : xref:#type.Int[Int]) : xref:#type.Int[Int]
+----
+
+Returns `x` to the power of `y`, `x ** y`.
+
+Traps when `y` is negative or `y > 2 ** 32 - 1`.
+No overflow since `Int` has infinite precision.
+
+Example:
+```motoko include=import
+Int.pow(-2, 3); // => -8
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `**` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `**`
+as a function value at the moment.
+

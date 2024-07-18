@@ -1,0 +1,868 @@
+[[module.Nat32]]
+= Nat32
+
+Provides utility functions on 32-bit unsigned integers.
+
+Note that most operations are available as built-in operators (e.g. `1 + 1`).
+
+Import from the base library to use this module.
+```motoko name=import
+import Nat32 "mo:base/Nat32";
+```
+
+[[type.Nat32]]
+== Nat32
+
+[source.no-repl,motoko,subs=+macros]
+----
+type Nat32 = Prim.Types.Nat32
+----
+
+32-bit natural numbers.
+
+[[maximumValue]]
+== maximumValue
+
+[source.no-repl,motoko,subs=+macros]
+----
+let maximumValue : xref:#type.Nat32[Nat32]
+----
+
+Maximum 32-bit natural number. `2 ** 32 - 1`.
+
+Example:
+```motoko include=import
+Nat32.maximumValue; // => 4294967295 : Nat32
+```
+
+[[toNat]]
+== toNat
+
+[source.no-repl,motoko,subs=+macros]
+----
+let toNat : xref:#type.Nat32[Nat32] -> Nat
+----
+
+Converts a 32-bit unsigned integer to an unsigned integer with infinite precision.
+
+Example:
+```motoko include=import
+Nat32.toNat(123); // => 123 : Nat
+```
+
+[[fromNat]]
+== fromNat
+
+[source.no-repl,motoko,subs=+macros]
+----
+let fromNat : Nat -> xref:#type.Nat32[Nat32]
+----
+
+Converts an unsigned integer with infinite precision to a 32-bit unsigned integer.
+
+Traps on overflow.
+
+Example:
+```motoko include=import
+Nat32.fromNat(123); // => 123 : Nat32
+```
+
+[[fromNat16]]
+== fromNat16
+
+[source.no-repl,motoko,subs=+macros]
+----
+func fromNat16(x : Nat16) : xref:#type.Nat32[Nat32]
+----
+
+Converts a 16-bit unsigned integer to a 32-bit unsigned integer.
+
+Example:
+```motoko include=import
+Nat32.fromNat16(123); // => 123 : Nat32
+```
+
+[[toNat16]]
+== toNat16
+
+[source.no-repl,motoko,subs=+macros]
+----
+func toNat16(x : xref:#type.Nat32[Nat32]) : Nat16
+----
+
+Converts a 32-bit unsigned integer to a 16-bit unsigned integer.
+
+Traps on overflow.
+
+Example:
+```motoko include=import
+Nat32.toNat16(123); // => 123 : Nat16
+```
+
+[[fromNat64]]
+== fromNat64
+
+[source.no-repl,motoko,subs=+macros]
+----
+func fromNat64(x : Nat64) : xref:#type.Nat32[Nat32]
+----
+
+Converts a 64-bit unsigned integer to a 32-bit unsigned integer.
+
+Traps on overflow.
+
+Example:
+```motoko include=import
+Nat32.fromNat64(123); // => 123 : Nat32
+```
+
+[[toNat64]]
+== toNat64
+
+[source.no-repl,motoko,subs=+macros]
+----
+func toNat64(x : xref:#type.Nat32[Nat32]) : Nat64
+----
+
+Converts a 32-bit unsigned integer to a 64-bit unsigned integer.
+
+Example:
+```motoko include=import
+Nat32.toNat64(123); // => 123 : Nat64
+```
+
+[[fromIntWrap]]
+== fromIntWrap
+
+[source.no-repl,motoko,subs=+macros]
+----
+let fromIntWrap : Int -> xref:#type.Nat32[Nat32]
+----
+
+Converts a signed integer with infinite precision to a 32-bit unsigned integer.
+
+Traps on overflow/underflow.
+
+Example:
+```motoko include=import
+Nat32.fromIntWrap(123); // => 123 : Nat32
+```
+
+[[toText]]
+== toText
+
+[source.no-repl,motoko,subs=+macros]
+----
+func toText(x : xref:#type.Nat32[Nat32]) : Text
+----
+
+Converts `x` to its textual representation. Textual representation _do not_
+contain underscores to represent commas.
+
+Example:
+```motoko include=import
+Nat32.toText(1234); // => "1234" : Text
+```
+
+[[min]]
+== min
+
+[source.no-repl,motoko,subs=+macros]
+----
+func min(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the minimum of `x` and `y`.
+
+Example:
+```motoko include=import
+Nat32.min(123, 456); // => 123 : Nat32
+```
+
+[[max]]
+== max
+
+[source.no-repl,motoko,subs=+macros]
+----
+func max(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the maximum of `x` and `y`.
+
+Example:
+```motoko include=import
+Nat32.max(123, 456); // => 456 : Nat32
+```
+
+[[equal]]
+== equal
+
+[source.no-repl,motoko,subs=+macros]
+----
+func equal(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+Equality function for Nat32 types.
+This is equivalent to `x == y`.
+
+Example:
+```motoko include=import
+ignore Nat32.equal(1, 1); // => true
+(1 : Nat32) == (1 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `==` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `==`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Buffer "mo:base/Buffer";
+
+let buffer1 = Buffer.Buffer<Nat32>(3);
+let buffer2 = Buffer.Buffer<Nat32>(3);
+Buffer.equal(buffer1, buffer2, Nat32.equal) // => true
+```
+
+[[notEqual]]
+== notEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func notEqual(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+Inequality function for Nat32 types.
+This is equivalent to `x != y`.
+
+Example:
+```motoko include=import
+ignore Nat32.notEqual(1, 2); // => true
+(1 : Nat32) != (2 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `!=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `!=`
+as a function value at the moment.
+
+[[less]]
+== less
+
+[source.no-repl,motoko,subs=+macros]
+----
+func less(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+"Less than" function for Nat32 types.
+This is equivalent to `x < y`.
+
+Example:
+```motoko include=import
+ignore Nat32.less(1, 2); // => true
+(1 : Nat32) < (2 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<`
+as a function value at the moment.
+
+[[lessOrEqual]]
+== lessOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func lessOrEqual(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+"Less than or equal" function for Nat32 types.
+This is equivalent to `x <= y`.
+
+Example:
+```motoko include=import
+ignore Nat32.lessOrEqual(1, 2); // => true
+(1 : Nat32) <= (2 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<=`
+as a function value at the moment.
+
+[[greater]]
+== greater
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greater(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+"Greater than" function for Nat32 types.
+This is equivalent to `x > y`.
+
+Example:
+```motoko include=import
+ignore Nat32.greater(2, 1); // => true
+(2 : Nat32) > (1 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `>` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `>`
+as a function value at the moment.
+
+[[greaterOrEqual]]
+== greaterOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greaterOrEqual(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : Bool
+----
+
+"Greater than or equal" function for Nat32 types.
+This is equivalent to `x >= y`.
+
+Example:
+```motoko include=import
+ignore Nat32.greaterOrEqual(2, 1); // => true
+(2 : Nat32) >= (1 : Nat32) // => true
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `>=` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `>=`
+as a function value at the moment.
+
+[[compare]]
+== compare
+
+[source.no-repl,motoko,subs=+macros]
+----
+func compare(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : {#less; #equal; #greater}
+----
+
+General purpose comparison function for `Nat32`. Returns the `Order` (
+either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
+
+Example:
+```motoko include=import
+Nat32.compare(2, 3) // => #less
+```
+
+This function can be used as value for a high order function, such as a sort function.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.sort([2, 3, 1] : [Nat32], Nat32.compare) // => [1, 2, 3]
+```
+
+[[add]]
+== add
+
+[source.no-repl,motoko,subs=+macros]
+----
+func add(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the sum of `x` and `y`, `x + y`.
+Traps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.add(1, 2); // => 3
+(1 : Nat32) + (2 : Nat32) // => 3
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `+` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `+`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft<Nat32, Nat32>([2, 3, 1], 0, Nat32.add) // => 6
+```
+
+[[sub]]
+== sub
+
+[source.no-repl,motoko,subs=+macros]
+----
+func sub(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the difference of `x` and `y`, `x - y`.
+Traps on underflow.
+
+Example:
+```motoko include=import
+ignore Nat32.sub(2, 1); // => 1
+(2 : Nat32) - (1 : Nat32) // => 1
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `-` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `-`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft<Nat32, Nat32>([2, 3, 1], 20, Nat32.sub) // => 14
+```
+
+[[mul]]
+== mul
+
+[source.no-repl,motoko,subs=+macros]
+----
+func mul(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the product of `x` and `y`, `x * y`.
+Traps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.mul(2, 3); // => 6
+(2 : Nat32) * (3 : Nat32) // => 6
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `*` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `*`
+as a function value at the moment.
+
+Example:
+```motoko include=import
+import Array "mo:base/Array";
+Array.foldLeft<Nat32, Nat32>([2, 3, 1], 1, Nat32.mul) // => 6
+```
+
+[[div]]
+== div
+
+[source.no-repl,motoko,subs=+macros]
+----
+func div(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the division of `x by y`, `x / y`.
+Traps when `y` is zero.
+
+Example:
+```motoko include=import
+ignore Nat32.div(6, 2); // => 3
+(6 : Nat32) / (2 : Nat32) // => 3
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `/` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `/`
+as a function value at the moment.
+
+[[rem]]
+== rem
+
+[source.no-repl,motoko,subs=+macros]
+----
+func rem(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the remainder of `x` divided by `y`, `x % y`.
+Traps when `y` is zero.
+
+Example:
+```motoko include=import
+ignore Nat32.rem(6, 4); // => 2
+(6 : Nat32) % (4 : Nat32) // => 2
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `%`
+as a function value at the moment.
+
+[[pow]]
+== pow
+
+[source.no-repl,motoko,subs=+macros]
+----
+func pow(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns `x` to the power of `y`, `x ** y`. Traps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.pow(2, 3); // => 8
+(2 : Nat32) ** (3 : Nat32) // => 8
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `**` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `**`
+as a function value at the moment.
+
+[[bitnot]]
+== bitnot
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitnot(x : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise negation of `x`, `^x`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitnot(0) // => 4294967295
+^(0 : Nat32) // => 4294967295
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `^` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `^`
+as a function value at the moment.
+
+[[bitand]]
+== bitand
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitand(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise and of `x` and `y`, `x & y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitand(1, 3); // => 1
+(1 : Nat32) & (3 : Nat32) // => 1
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `&` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `&`
+as a function value at the moment.
+
+[[bitor]]
+== bitor
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitor(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise or of `x` and `y`, `x | y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitor(1, 3); // => 3
+(1 : Nat32) | (3 : Nat32) // => 3
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `|` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `|`
+as a function value at the moment.
+
+[[bitxor]]
+== bitxor
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitxor(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise exclusive or of `x` and `y`, `x ^ y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitxor(1, 3); // => 2
+(1 : Nat32) ^ (3 : Nat32) // => 2
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `^` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `^`
+as a function value at the moment.
+
+[[bitshiftLeft]]
+== bitshiftLeft
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitshiftLeft(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise shift left of `x` by `y`, `x << y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitshiftLeft(1, 3); // => 8
+(1 : Nat32) << (3 : Nat32) // => 8
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<<` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<<`
+as a function value at the moment.
+
+[[bitshiftRight]]
+== bitshiftRight
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitshiftRight(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise shift right of `x` by `y`, `x >> y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitshiftRight(8, 3); // => 1
+(8 : Nat32) >> (3 : Nat32) // => 1
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `>>` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `>>`
+as a function value at the moment.
+
+[[bitrotLeft]]
+== bitrotLeft
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitrotLeft(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitrotLeft(1, 3); // => 8
+(1 : Nat32) <<> (3 : Nat32) // => 8
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<<>` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<<>`
+as a function value at the moment.
+
+[[bitrotRight]]
+== bitrotRight
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitrotRight(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the bitwise rotate right of `x` by `y`, `x <>> y`.
+
+Example:
+```motoko include=import
+ignore Nat32.bitrotRight(1, 1); // => 2147483648
+(1 : Nat32) <>> (1 : Nat32) // => 2147483648
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `<>>` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `<>>`
+as a function value at the moment.
+
+[[bittest]]
+== bittest
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bittest(x : xref:#type.Nat32[Nat32], p : Nat) : Bool
+----
+
+Returns the value of bit `p mod 32` in `x`, `(x & 2^(p mod 32)) == 2^(p mod 32)`.
+This is equivalent to checking if the `p`-th bit is set in `x`, using 0 indexing.
+
+Example:
+```motoko include=import
+Nat32.bittest(5, 2); // => true
+```
+
+[[bitset]]
+== bitset
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitset(x : xref:#type.Nat32[Nat32], p : Nat) : xref:#type.Nat32[Nat32]
+----
+
+Returns the value of setting bit `p mod 32` in `x` to `1`.
+
+Example:
+```motoko include=import
+Nat32.bitset(5, 1); // => 7
+```
+
+[[bitclear]]
+== bitclear
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitclear(x : xref:#type.Nat32[Nat32], p : Nat) : xref:#type.Nat32[Nat32]
+----
+
+Returns the value of clearing bit `p mod 32` in `x` to `0`.
+
+Example:
+```motoko include=import
+Nat32.bitclear(5, 2); // => 1
+```
+
+[[bitflip]]
+== bitflip
+
+[source.no-repl,motoko,subs=+macros]
+----
+func bitflip(x : xref:#type.Nat32[Nat32], p : Nat) : xref:#type.Nat32[Nat32]
+----
+
+Returns the value of flipping bit `p mod 32` in `x`.
+
+Example:
+```motoko include=import
+Nat32.bitflip(5, 2); // => 1
+```
+
+[[bitcountNonZero]]
+== bitcountNonZero
+
+[source.no-repl,motoko,subs=+macros]
+----
+let bitcountNonZero : (x : xref:#type.Nat32[Nat32]) -> xref:#type.Nat32[Nat32]
+----
+
+Returns the count of non-zero bits in `x`.
+
+Example:
+```motoko include=import
+Nat32.bitcountNonZero(5); // => 2
+```
+
+[[bitcountLeadingZero]]
+== bitcountLeadingZero
+
+[source.no-repl,motoko,subs=+macros]
+----
+let bitcountLeadingZero : (x : xref:#type.Nat32[Nat32]) -> xref:#type.Nat32[Nat32]
+----
+
+Returns the count of leading zero bits in `x`.
+
+Example:
+```motoko include=import
+Nat32.bitcountLeadingZero(5); // => 29
+```
+
+[[bitcountTrailingZero]]
+== bitcountTrailingZero
+
+[source.no-repl,motoko,subs=+macros]
+----
+let bitcountTrailingZero : (x : xref:#type.Nat32[Nat32]) -> xref:#type.Nat32[Nat32]
+----
+
+Returns the count of trailing zero bits in `x`.
+
+Example:
+```motoko include=import
+Nat32.bitcountTrailingZero(16); // => 4
+```
+
+[[addWrap]]
+== addWrap
+
+[source.no-repl,motoko,subs=+macros]
+----
+func addWrap(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.addWrap(4294967295, 1); // => 0
+(4294967295 : Nat32) +% (1 : Nat32) // => 0
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `+%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `+%`
+as a function value at the moment.
+
+[[subWrap]]
+== subWrap
+
+[source.no-repl,motoko,subs=+macros]
+----
+func subWrap(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the difference of `x` and `y`, `x -% y`. Wraps on underflow.
+
+Example:
+```motoko include=import
+ignore Nat32.subWrap(0, 1); // => 4294967295
+(0 : Nat32) -% (1 : Nat32) // => 4294967295
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `-%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `-%`
+as a function value at the moment.
+
+[[mulWrap]]
+== mulWrap
+
+[source.no-repl,motoko,subs=+macros]
+----
+func mulWrap(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.mulWrap(2147483648, 2); // => 0
+(2147483648 : Nat32) *% (2 : Nat32) // => 0
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `*%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `*%`
+as a function value at the moment.
+
+[[powWrap]]
+== powWrap
+
+[source.no-repl,motoko,subs=+macros]
+----
+func powWrap(x : xref:#type.Nat32[Nat32], y : xref:#type.Nat32[Nat32]) : xref:#type.Nat32[Nat32]
+----
+
+Returns `x` to the power of `y`, `x **% y`. Wraps on overflow.
+
+Example:
+```motoko include=import
+ignore Nat32.powWrap(2, 32); // => 0
+(2 : Nat32) **% (32 : Nat32) // => 0
+```
+
+Note: The reason why this function is defined in this library (in addition
+to the existing `**%` operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use `**%`
+as a function value at the moment.
+

@@ -1,0 +1,167 @@
+[[module.Char]]
+= Char
+
+Characters
+
+[[type.Char]]
+== Char
+
+[source.no-repl,motoko,subs=+macros]
+----
+type Char = Prim.Types.Char
+----
+
+Characters represented as Unicode code points.
+
+[[toNat32]]
+== toNat32
+
+[source.no-repl,motoko,subs=+macros]
+----
+let toNat32 : (c : xref:#type.Char[Char]) -> Nat32
+----
+
+Convert character `c` to a word containing its Unicode scalar value.
+
+[[fromNat32]]
+== fromNat32
+
+[source.no-repl,motoko,subs=+macros]
+----
+let fromNat32 : (w : Nat32) -> xref:#type.Char[Char]
+----
+
+Convert `w` to a character.
+Traps if `w` is not a valid Unicode scalar value.
+Value `w` is valid if, and only if, `w < 0xD800 or (0xE000 <= w and w <= 0x10FFFF)`.
+
+[[toText]]
+== toText
+
+[source.no-repl,motoko,subs=+macros]
+----
+let toText : (c : xref:#type.Char[Char]) -> Text
+----
+
+Convert character `c` to single character text.
+
+[[isDigit]]
+== isDigit
+
+[source.no-repl,motoko,subs=+macros]
+----
+func isDigit(c : xref:#type.Char[Char]) : Bool
+----
+
+Returns `true` when `c` is a decimal digit between `0` and `9`, otherwise `false`.
+
+[[isWhitespace]]
+== isWhitespace
+
+[source.no-repl,motoko,subs=+macros]
+----
+let isWhitespace : (c : xref:#type.Char[Char]) -> Bool
+----
+
+Returns the Unicode _White_Space_ property of `c`.
+
+[[isLowercase]]
+== isLowercase
+
+[source.no-repl,motoko,subs=+macros]
+----
+let isLowercase : (c : xref:#type.Char[Char]) -> Bool
+----
+
+Returns the Unicode _Lowercase_ property of `c`.
+
+[[isUppercase]]
+== isUppercase
+
+[source.no-repl,motoko,subs=+macros]
+----
+let isUppercase : (c : xref:#type.Char[Char]) -> Bool
+----
+
+Returns the Unicode _Uppercase_ property of `c`.
+
+[[isAlphabetic]]
+== isAlphabetic
+
+[source.no-repl,motoko,subs=+macros]
+----
+let isAlphabetic : (c : xref:#type.Char[Char]) -> Bool
+----
+
+Returns the Unicode _Alphabetic_ property of `c`.
+
+[[equal]]
+== equal
+
+[source.no-repl,motoko,subs=+macros]
+----
+func equal(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x == y`.
+
+[[notEqual]]
+== notEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func notEqual(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x != y`.
+
+[[less]]
+== less
+
+[source.no-repl,motoko,subs=+macros]
+----
+func less(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x < y`.
+
+[[lessOrEqual]]
+== lessOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func lessOrEqual(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x <= y`.
+
+[[greater]]
+== greater
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greater(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x > y`.
+
+[[greaterOrEqual]]
+== greaterOrEqual
+
+[source.no-repl,motoko,subs=+macros]
+----
+func greaterOrEqual(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : Bool
+----
+
+Returns `x >= y`.
+
+[[compare]]
+== compare
+
+[source.no-repl,motoko,subs=+macros]
+----
+func compare(x : xref:#type.Char[Char], y : xref:#type.Char[Char]) : {#less; #equal; #greater}
+----
+
+Returns the order of `x` and `y`.
+
